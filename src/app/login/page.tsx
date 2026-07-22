@@ -1,42 +1,93 @@
-﻿'use client'
-import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
+﻿import Link from "next/link";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isSignUp, setIsSignUp] = useState(false)
-  const [error, setError] = useState('')
-  const router = useRouter()
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    if (isSignUp) {
-      const { error } = await supabase.auth.signUp({ email, password })
-      if (error) setError(error.message)
-      else alert('Check your email to confirm!')
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) setError(error.message)
-      else router.push('/dashboard')
-    }
-  }
-
+export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-blue-700">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-2 text-blue-900">C-Global Banking</h1>
-        <p className="text-center text-gray-500 mb-6">Empowerment Portal</p>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required />
-          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <button type="submit" className="w-full bg-blue-900 text-white p-3 rounded-lg font-semibold hover:bg-blue-800 transition">{isSignUp ? 'Create Account' : 'Sign In'}</button>
-        </form>
-        <p className="text-center mt-4 text-sm text-gray-600">{isSignUp ? 'Already have an account?' : "Don't have an account?"} <button onClick={() => setIsSignUp(!isSignUp)} className="text-blue-600 font-semibold hover:underline">{isSignUp ? 'Sign In' : 'Sign Up'}</button></p>
+    <main className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+
+        <header className="flex justify-between items-center mb-20">
+          <div>
+            <h1 className="text-4xl font-bold">
+              C-Global Banking
+            </h1>
+            <p className="text-blue-200">
+              Empowerment Portal
+            </p>
+          </div>
+
+          <Link
+            href="/login"
+            className="bg-white text-blue-900 px-6 py-3 rounded-xl font-semibold hover:bg-blue-100"
+          >
+            Login
+          </Link>
+        </header>
+
+        <section className="grid lg:grid-cols-2 gap-12 items-center">
+
+          <div>
+            <h2 className="text-6xl font-bold leading-tight mb-6">
+              Secure Digital Banking
+            </h2>
+
+            <p className="text-xl text-blue-100 mb-10">
+              Manage your accounts, transfer funds, pay bills,
+              monitor transactions, and securely access your
+              banking dashboard from anywhere in the world.
+            </p>
+
+            <div className="flex gap-4">
+              <Link
+                href="/login"
+                className="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-xl font-semibold"
+              >
+                Online Banking
+              </Link>
+
+              <Link
+                href="/login"
+                className="border border-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-900"
+              >
+                Open Account
+              </Link>
+            </div>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10">
+
+            <h3 className="text-3xl font-bold mb-8">
+              Banking Services
+            </h3>
+
+            <div className="space-y-5">
+
+              <div className="p-5 rounded-xl bg-white/10">
+                💳 Personal & Business Accounts
+              </div>
+
+              <div className="p-5 rounded-xl bg-white/10">
+                💸 Instant Money Transfers
+              </div>
+
+              <div className="p-5 rounded-xl bg-white/10">
+                📈 Investment & Savings
+              </div>
+
+              <div className="p-5 rounded-xl bg-white/10">
+                🏦 Loans & Credit Facilities
+              </div>
+
+              <div className="p-5 rounded-xl bg-white/10">
+                🔐 Secure Online Banking
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
       </div>
-    </div>
-  )
+    </main>
+  );
 }
